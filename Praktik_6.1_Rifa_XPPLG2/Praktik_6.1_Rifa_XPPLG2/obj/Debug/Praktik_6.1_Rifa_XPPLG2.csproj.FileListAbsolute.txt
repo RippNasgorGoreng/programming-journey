@@ -1,0 +1,7 @@
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\bin\Debug\Praktik_6.1_Rifa_XPPLG2.exe.config
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\bin\Debug\Praktik_6.1_Rifa_XPPLG2.exe
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\bin\Debug\Praktik_6.1_Rifa_XPPLG2.pdb
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\obj\Debug\Praktik_6.1_Rifa_XPPLG2.csproj.AssemblyReference.cache
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\obj\Debug\Praktik_6.1_Rifa_XPPLG2.csproj.CoreCompileInputs.cache
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\obj\Debug\Praktik_6.1_Rifa_XPPLG2.exe
+D:\C# SMK\Praktik_6.1_Rifa_XPPLG2\Praktik_6.1_Rifa_XPPLG2\obj\Debug\Praktik_6.1_Rifa_XPPLG2.pdb

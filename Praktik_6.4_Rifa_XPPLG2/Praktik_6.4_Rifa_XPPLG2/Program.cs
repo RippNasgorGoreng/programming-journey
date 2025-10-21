@@ -1,0 +1,33 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Praktik_6._4_Rifa_XPPLG2
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            //1. Inisialisasi variabel penghitung (counter)
+            int hitungan = 5;
+
+            Console.WriteLine("Memulai hitungan mundur : ");
+            //2. Perulangan 'while' 
+            // Kondisi : selama nilai 'hitungan' lebih besar dari 0 
+            while (hitungan > 0)
+            {
+                // Blok kode di dalam perulangan 
+                Console.WriteLine($"Hitungan : {hitungan}");
+
+                //3. Update variabel penghitung (decrement/pengurangan)
+                // Ini penting agar perulangan tidak menjadi loop takk terbatas (infinite loop)
+                hitungan = hitungan - 1;
+                // atau bisa juga ditulis : hitungan --;
+            }
+            // Kode setelah perulangan selesai 
+            Console.WriteLine("Selesai! Hitungan mundur telah berakhir.");
+        }
+    }
+}

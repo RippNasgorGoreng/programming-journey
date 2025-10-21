@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36518.9 d17.14
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Praktik_6.5_Rifa_XPPLG2", "Praktik_6.5_Rifa_XPPLG2\Praktik_6.5_Rifa_XPPLG2.csproj", "{CA4ACD45-FFA9-44D9-960E-94394F3B103D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CA4ACD45-FFA9-44D9-960E-94394F3B103D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CA4ACD45-FFA9-44D9-960E-94394F3B103D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CA4ACD45-FFA9-44D9-960E-94394F3B103D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CA4ACD45-FFA9-44D9-960E-94394F3B103D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD040259-B76A-42E4-8A6D-3A349B72DC01}
+	EndGlobalSection
+EndGlobal
