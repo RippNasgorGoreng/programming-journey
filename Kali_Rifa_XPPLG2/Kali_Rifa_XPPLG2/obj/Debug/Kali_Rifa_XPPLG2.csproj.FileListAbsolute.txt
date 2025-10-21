@@ -1,0 +1,8 @@
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\bin\Debug\Kali_Rifa_XPPLG2.exe.config
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\bin\Debug\Kali_Rifa_XPPLG2.exe
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\bin\Debug\Kali_Rifa_XPPLG2.pdb
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\obj\Debug\Kali_Rifa_XPPLG2.csproj.AssemblyReference.cache
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\obj\Debug\Kali_Rifa_XPPLG2.csproj.CoreCompileInputs.cache
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\obj\Debug\Kali_Rifa_XPPLG2.exe
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\obj\Debug\Kali_Rifa_XPPLG2.pdb
+D:\C# SMK\Kali_Rifa_XPPLG2\Kali_Rifa_XPPLG2\obj\Debug\Kali_Rifa_XPPLG2.exe.config

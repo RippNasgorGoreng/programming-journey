@@ -1,0 +1,8 @@
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\obj\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.csproj.AssemblyReference.cache
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\obj\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.csproj.CoreCompileInputs.cache
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\bin\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.exe.config
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\bin\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.exe
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\bin\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.pdb
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\obj\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.exe
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\obj\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.pdb
+D:\C# SMK\Kalkulator_Fungsi_Rifa_XPPLG2\Kalkulator_Fungsi_Rifa_XPPLG2\obj\Debug\Kalkulator_Fungsi_Rifa_XPPLG2.exe.config
