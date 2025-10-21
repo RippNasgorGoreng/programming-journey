@@ -1,0 +1,8 @@
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\bin\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.exe.config
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\bin\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.exe
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\bin\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.pdb
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\obj\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.csproj.AssemblyReference.cache
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\obj\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.csproj.CoreCompileInputs.cache
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\obj\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.exe
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\obj\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.pdb
+D:\C# SMK\Konversi suhu_Fungsi_Rifa_XPPLG2\Konversi suhu_Fungsi_Rifa_XPPLG2\obj\Debug\Konversi suhu_Fungsi_Rifa_XPPLG2.exe.config
