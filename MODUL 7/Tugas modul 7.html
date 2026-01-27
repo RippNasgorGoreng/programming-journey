@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulir pendaftaran siswa SMK</title>
+</head>
+<body>
+    <h3>FORMULIR PENDAFTARAN CALON SISWA SMK</h3>
+    <form action="/submit" method="post">
+        <fieldset>
+            <legend>BIODATA SISWA</legend>
+            <table>
+                <tr>
+                    <td>NO. UU SMP/MTs/Sederajat</td>
+                    <td><input type="text" name="no.uu" required></td>
+                </tr>
+                <tr>
+                    <td>Nama Lengkap</td>
+                    <td><input type="text" name="nama_leng" required></td>
+                </tr>
+                <tr>
+                    <td>Jenis Kelamin</td>
+                    <td><label for="option">
+                        <input type="radio" id="laki_laki" name="jen_kel" value="laki_laki">Laki-laki
+                    </label><br>
+                <label for="option2">
+                    <input type="radio" id="pr" name="jen_kel" value="pr">Perempuan
+                </label>
+                </tr>
+                <tr>
+                    <td>Nama Orangtua/Wali</td>
+                     <td><input type="nama_ortu" name="nama_ortu" required></td>
+                </tr>
+                <tr>
+                    <td>Alamat(SesuaiKK/KTP/SuratKet. <br> Domislin.6 bln Ortu/Walimurid calon siswa)</td>
+                    <td><textarea name="alamat" id="alamat" style="width: 170px;" style="height: 85px;" style="margin-left: auto;"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Kota/Kabupaten</td>
+                     <td><input type="text" name="Kota" required></td>
+                </tr>
+                <tr>
+                    <td>Asal Sekolah</td>
+                     <td><input type="text" name="asalsek" required></td>
+                </tr>
+                 <tr>
+                    <td>Agama</td>
+                    <td><label for=""></label>
+                    <select name="Agama" id="Agama">
+                    <option value=""selected disabled hidden></option>
+                    <option value="is">Islam</option>
+                    <option value="kr">Kristen</option>
+                    <option value="hi">Hindu</option>
+                    <option value="bu">Budha</option>
+                    <option value="ka">Katolik</option>
+                    <option value="ko">Konghucu</option>
+                    </select>
+                    </td>
+                </tr>
+            </table>
+        </fieldset>
+        <br>
+        <fieldset>
+            <Legend>PENILAIAN</Legend>
+            <table>
+                <tr>
+                    <td>NILAI UJIAN NASIONAL (NUN)</td>
+                </tr>
+                <tr>
+                    <td><label for="mtk">1. Matematika</label></td>
+                    <td><input type="text" name="mtk" style="width: 50px;" style="margin-left: 10px" required></td>
+                </tr>
+                  <tr>
+                    <td><label for="bindo">2. Bahasa Indonesia</label></td>
+                    <td><input type="text" name="bindo" style="width: 50px;" style="margin-left: 10px" required></td>
+                </tr>
+                  <tr>
+                    <td><label for="Bing">3. Bahasa Inggris</label></td>
+                    <td><input type="text" name="Bing" style="width: 50px;" style="margin-left: 10px" required></td>
+                </tr>
+                  <tr>
+                    <td><label for="IPA">4. IPA</label></td>
+                    <td><input type="text" name="IPA" style="width: 50px;" style="margin-left: 10px" required></td>
+                    <td><label for="jum_nun" style="margin-left: 10px;">Jumlah NUN</label></td>
+                    <td><input type="text" min="0" max="400" name="jum_nun" style="width: 50px;" style="margin-left: 10px;" required></td>
+                </tr>
+                <tr>
+                    <td><label for="NBP">NILAI BONUS PRESTASI (NBP)</label></td>
+                    <td><td><td><input type="text" min="0" id="NBP" style="width: 50px;" style="margin-left: 10px;" required></td></td></td>
+                </tr>
+                
+            </table>
+            <table>
+            <tr>
+                <td colspan="2"><label for="jumlah-akhir" style="font-size: 10pt;">JUMLAH TOTAL NILAI AKHIR PPDB</label></td>
+                <td><td><label for="" style="padding-right: 10px;">(RUMUS:NUN:+NBP)</label></td></td>
+                 <td><input type="text" min="0" name="jumlah-akhir" style="width: 50px;" style="margin-left: 10px;" required></td>
+            </tr>
+            </table>
+        </fieldset>
+        <br>
+        <fieldset>
+            <legend>PILIHAN SEKOLAH</legend>
+            <table> 
+                <tr>
+                    <td><label for="smk-1">1. SMK</label></td>
+                    <td><input type="text" id="smk-1" style="width: 250px; margin-left: 100px;" required></td>
+                </tr>
+                 <tr>
+                    <td><label for="smk-1-pil-1" style="padding-left: 15px;">a. PILIHAN 1</label></td>
+                    <td><input type="text" id="smk-1-pil-1" style="width: 250px; margin-left: 100px;" required></td>
+                </tr>
+                 <tr>
+                    <td><label for="smk-1-pil-2" style="padding-left: 15px;">b. PILIHAN 2</label></td>
+                    <td><input type="text" id="smk-1-pil-2" style="width: 250px; margin-left: 100px;" required></td>
+                </tr>
+                 <tr>
+                    <td><label for="smk-2">2. SMK</label></td>
+                    <td><input type="text" id="smk-2" style="width: 250px; margin-left: 100px;" required></td>
+                </tr>
+                <tr>
+                <td><label for="smk-2-pil-1" style="padding-left: 15px;">a. PILIHAN 1</label></td>
+                    <td><input type="text" id="smk-2-pil-1" style="width: 250px; margin-left: 100px;" required></td>
+                    </tr>
+                    <tr>
+                        <td><label for="smk-2-pil-2" style="padding-left: 15px;">a. PILIHAN 2</label></td>
+                    <td><input type="text" id="smk-2-pil-2" style="width: 250px; margin-left: 100px;" required></td>
+                    </tr>
+            </table>
+        </fieldset>
+        <td></td>
+        <td></td>
+        <input type="submit" value="Submit">
+        <input type="reset" value="Reset">
+    </form>
+</body>
+</html>
