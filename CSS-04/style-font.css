@@ -1,0 +1,47 @@
+body {
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+/* Paragraf 1 */
+.dapid {
+    font-size: 18px;          
+    font-weight: bold;
+    font-style: normal;
+    font-family: Georgia, serif;
+}
+
+/* Paragraf 2 */
+.makan {
+    font-size: 1.5em;        
+    font-weight: lighter;
+    font-style: italic;
+    font-family: 'Courier New', monospace;
+}
+
+/* Paragraf 3 */
+.tahu{
+    font-size: 1.2rem;        
+    font-weight: 600;
+    font-style: oblique;
+    font-family: Verdana, sans-serif;
+}
+
+/* Paragraf 4 */
+.goreng {
+    font-size: 120%;          
+    font-weight: 400;
+    font-style: normal;
+    font-family: Tahoma, sans-serif;
+}
+
+/* Paragraf 5 */
+.kenyang {
+    font-size: 2vw;         
+    font-weight: 700;
+    font-style: italic;
+    font-family: 'Times New Roman', serif;
+}
