@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tugas Overflow</title>
+    <style>
+        body{
+            font-family: Arial, sans-serif;
+        }
+
+        header{
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        nav a{
+            display: inline-block;
+            padding: 10px 15px;
+            background: rgb(141, 212, 236);
+            margin: 5px;
+            text-decoration: none;
+            color: black;
+        }
+
+     article{
+    width: 320px;
+    height: 200px;
+    border: 2px solid black;
+    margin: 10px;
+    padding: 10px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.flexbox{
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-top: 20px;
+}
+        .visible{
+            overflow: visible;
+            background-color: aqua;
+            width: 300;
+        }
+
+        .hidden{
+            overflow: hidden;
+            background-color: lime;
+        }
+
+        .scroll{
+            overflow: scroll;
+            background-color: red;
+        }
+
+        .auto{
+            overflow: auto;
+            background-color: yellow;
+        }
+
+       
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Website Produk Teknologi</h1>
+</header>
+
+<nav>
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Product</a>
+    <a href="#">Contact</a>
+</nav>
+<div class="flexbox">
+<article class="visible">
+<h3>Produk 1 - Laptop</h3>
+<p>
+Laptop merupakan perangkat komputer portabel yang sangat membantu aktivitas
+belajar, bekerja, maupun hiburan. Dengan ukuran yang lebih kecil dibanding
+komputer desktop, laptop mudah dibawa ke mana saja. Banyak orang menggunakan
+laptop untuk membuat dokumen, mengedit foto, menonton video, hingga bermain
+game ringan. Teknologi laptop terus berkembang dengan prosesor yang lebih
+cepat, baterai lebih tahan lama, serta desain yang semakin tipis dan ringan.
+</p>
+</article>
+
+<article class="hidden">
+<h3>Produk 2 - Smartphone</h3>
+<p>
+Smartphone adalah perangkat komunikasi modern yang memiliki banyak fungsi.
+Selain untuk menelepon dan mengirim pesan, smartphone juga dapat digunakan
+untuk mengakses internet, media sosial, bermain game, belajar online, hingga
+mengambil foto dan video berkualitas tinggi. Hampir semua orang saat ini
+menggunakan smartphone untuk membantu aktivitas sehari-hari karena praktis
+dan memiliki banyak aplikasi yang bermanfaat.
+</p>
+</article>
+
+<div style="clear: both;"></div>
+
+<article class="scroll">
+<h3>Produk 3 - Headphone</h3>
+<p>
+Headphone adalah perangkat audio yang digunakan untuk mendengarkan suara
+secara pribadi tanpa mengganggu orang lain. Headphone sering digunakan
+untuk mendengarkan musik, menonton film, bermain game, atau mengikuti
+kelas online. Beberapa headphone modern dilengkapi teknologi noise
+cancelling yang dapat mengurangi suara dari lingkungan sekitar sehingga
+pengguna bisa fokus menikmati audio dengan kualitas yang lebih jernih
+dan nyaman dalam waktu lama.
+</p>
+</article>
+
+<article class="auto">
+<h3>Produk 4 - Smartwatch</h3>
+<p>
+Smartwatch adalah jam tangan pintar yang memiliki berbagai fitur teknologi.
+Selain menunjukkan waktu, smartwatch dapat memantau kesehatan seperti
+detak jantung, jumlah langkah, dan kualitas tidur. Banyak smartwatch juga
+terhubung dengan smartphone sehingga pengguna dapat menerima notifikasi
+pesan, panggilan, atau aplikasi langsung dari pergelangan tangan. Desainnya
+yang modern membuat smartwatch tidak hanya berguna tetapi juga menjadi
+aksesoris gaya hidup.
+</p>
+</article>
+</div>
+</body>
+</html>
