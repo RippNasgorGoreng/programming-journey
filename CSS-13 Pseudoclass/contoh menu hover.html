@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menu Modern</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar */
+        .menu {
+            background: linear-gradient(90deg, blue, cyan);
+            display: flex;
+            justify-content: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            border-radius: 0 0 10px 10px;
+            z-index: 1000;
+        }
+
+        .menu a {
+            position: relative;
+            color: white;
+            padding: 15px 25px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        /* Hover efek */
+        .menu a:hover {
+            color: #4CAF50;
+        }
+
+        /* Underline animasi */
+        .menu a::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 5px;
+            width: 0;
+            height: 3px;
+            background: black;
+            transition: 0.3s;
+        }
+
+        .menu a:hover::after {
+            width: 100%;
+        }
+
+        /* Active menu */
+        .menu a.active {
+            color: #4CAF50;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .menu {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .menu a {
+                width: 100%;
+                text-align: center;
+                border-top: 1px solid #444;
+            }
+        }
+
+        h2 {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        p {
+            text-align: center;
+            padding: 0 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="menu">
+        <a href="#" class="active">Beranda</a>
+        <a href="#">Tentang</a>
+        <a href="#">Layanan</a>
+        <a href="#">Kontak</a>
+    </div>
+
+    <h2>SPPG ROWOCACING</h2>
+    <p>"Nyatanya MBG lebih mengenyangkan daripada harapan yang berkali kali kita makan"</p>
+
+</body>
+</html>
