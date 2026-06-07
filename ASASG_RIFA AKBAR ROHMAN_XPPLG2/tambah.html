@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Tugas - EduTask</title>
+     <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1 id="formTitle">Tambah Tugas</h1>
+                <p id="formSubtitle">Isi form di bawah untuk menambahkan tugas baru</p>
+            </div>
+
+            <div class="form-card">
+                <form id="taskForm">
+                    <h3 class="form-section-title">
+                        <i class="fas fa-info-circle"></i> Informasi Tugas
+                    </h3>
+
+                    <div class="form-group-form">
+                        <label for="judul">Judul Tugas</label>
+                        <input type="text" id="judul" placeholder="Contoh: Membuat Makalah Energi Terbarukan" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group-form">
+                            <label for="mapel">Mata Pelajaran</label>
+                            <select id="mapel" required>
+                                <option value="">Pilih Mata Pelajaran</option>
+                                <option value="IPA">IPA</option>
+                                <option value="Matematika">Matematika</option>
+                                <option value="B. Indonesia">B. Indonesia</option>
+                                <option value="B. Inggris">B. Inggris</option>
+                                <option value="Fisika">Fisika</option>
+                                <option value="TKJ">TKJ</option>
+                                <option value="Pemrograman">Pemrograman</option>
+                                <option value="Desain Grafis">Desain Grafis</option>
+                                <option value="PKn">PKn</option>
+                                <option value="Sejarah">Sejarah</option>
+                            </select>
+                        </div>
+                        <div class="form-group-form">
+                            <label for="deadline">Tanggal Deadline</label>
+                            <input type="date" id="deadline" required>
+                        </div>
+                    </div>
+
+                    <h3 class="form-section-title">
+                        <i class="fas fa-clipboard-list"></i> Detail Tugas
+                    </h3>
+
+                    <div class="form-group-form">
+                        <label for="deskripsi">Deskripsi Tugas</label>
+                        <textarea id="deskripsi" placeholder="Jelaskan detail tugas yang harus dikerjakan..." required></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group-form">
+                            <label for="prioritas">Prioritas</label>
+                            <select id="prioritas" required>
+                                <option value="Tinggi">Tinggi</option>
+                                <option value="Sedang" selected>Sedang</option>
+                                <option value="Rendah">Rendah</option>
+                            </select>
+                        </div>
+                        <div class="form-group-form">
+                            <label for="status">Status</label>
+                            <select id="status" required>
+                                <option value="Belum Selesai" selected>Belum Selesai</option>
+                                <option value="Selesai">Selesai</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-buttons">
+                        <button type="submit" class="btn btn-primary" id="btnSubmit">
+                            <i class="fas fa-save"></i> Simpan Tugas
+                        </button>
+                        <a href="tugas.html" class="btn btn-secondary">Batal</a>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+    <script>
+        requireAuth();
+        renderSidebar('tambah');
+
+        const params = new URLSearchParams(window.location.search);
+        const editId = params.get('edit');
+        let isEditing = false;
+
+        // Jika mode edit, isi form dengan data tugas
+        if (editId) {
+            isEditing = true;
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === parseInt(editId));
+            if (task) {
+                document.getElementById('formTitle').textContent = 'Edit Tugas';
+                document.getElementById('formSubtitle').textContent = 'Ubah informasi tugas yang dipilih';
+                document.getElementById('btnSubmit').innerHTML = '<i class="fas fa-save"></i> Perbarui Tugas';
+                document.getElementById('judul').value = task.judul;
+                document.getElementById('mapel').value = task.mapel;
+                document.getElementById('deadline').value = task.deadline;
+                document.getElementById('deskripsi').value = task.deskripsi;
+                document.getElementById('prioritas').value = task.prioritas;
+                document.getElementById('status').value = task.status;
+            } else {
+                showToast('Tugas tidak ditemukan!', 'error');
+                window.location.href = 'tugas.html';
+            }
+        }
+
+        document.getElementById('taskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const tasks = getTasks();
+            const taskData = {
+                judul: document.getElementById('judul').value.trim(),
+                mapel: document.getElementById('mapel').value,
+                deadline: document.getElementById('deadline').value,
+                deskripsi: document.getElementById('deskripsi').value.trim(),
+                prioritas: document.getElementById('prioritas').value,
+                status: document.getElementById('status').value
+            };
+
+            if (isEditing) {
+                const idx = tasks.findIndex(t => t.id === parseInt(editId));
+                if (idx !== -1) {
+                    tasks[idx] = { ...tasks[idx], ...taskData };
+                    saveTasks(tasks);
+                    showToast('Tugas berhasil diperbarui!', 'success');
+                }
+            } else {
+                taskData.id = Date.now();
+                tasks.push(taskData);
+                saveTasks(tasks);
+                showToast('Tugas berhasil ditambahkan!', 'success');
+            }
+
+            window.location.href = 'tugas.html';
+        });
+    </script>
+</body>
+</html>

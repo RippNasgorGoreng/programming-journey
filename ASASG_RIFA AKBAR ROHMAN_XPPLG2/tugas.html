@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daftar Tugas - EduTask</title>
+
+ <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Daftar Tugas</h1>
+                <p>Kelola semua tugas dan pantau progresmu</p>
+            </div>
+
+            <!-- Toolbar -->
+            <div class="toolbar">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Cari tugas...">
+                </div>
+                <select class="filter-select" id="filterStatus">
+                    <option value="semua">Semua Status</option>
+                    <option value="Belum Selesai">Belum Selesai</option>
+                    <option value="Selesai">Selesai</option>
+                </select>
+                <select class="filter-select" id="filterPrioritas">
+                    <option value="semua">Semua Prioritas</option>
+                    <option value="Tinggi">Tinggi</option>
+                    <option value="Sedang">Sedang</option>
+                    <option value="Rendah">Rendah</option>
+                </select>
+            </div>
+
+            <!-- Tabel Tugas -->
+            <div class="section-card">
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul Tugas</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Deadline</th>
+                                <th>Prioritas</th>
+                                <th>Status</th>
+                                <th>Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="taskTable"></tbody>
+                    </table>
+                </div>
+                <div class="table-footer" id="tableFooter"></div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+    <script>
+        requireAuth();
+        renderSidebar('tugas');
+
+        function renderTaskTable() {
+            const tasks = getTasks();
+            const search = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('filterStatus').value;
+            const prioritasFilter = document.getElementById('filterPrioritas').value;
+
+            let filtered = tasks.filter(t => {
+                const matchSearch = t.judul.toLowerCase().includes(search) || t.mapel.toLowerCase().includes(search);
+                const matchStatus = statusFilter === 'semua' || t.status === statusFilter;
+                const matchPrioritas = prioritasFilter === 'semua' || t.prioritas === prioritasFilter;
+                return matchSearch && matchStatus && matchPrioritas;
+            });
+
+            const tbody = document.getElementById('taskTable');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr><td colspan="7">
+                        <div class="empty-state">
+                            <i class="fas fa-inbox"></i>
+                            <p>Tidak ada tugas ditemukan</p>
+                        </div>
+                    </td></tr>`;
+                document.getElementById('tableFooter').textContent = '';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            filtered.forEach((t, i) => {
+                const isDone = t.status === 'Selesai';
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${t.judul}</strong></td>
+                        <td>${t.mapel}</td>
+                        <td>${formatDate(t.deadline)}</td>
+                        <td><span class="badge badge-${t.prioritas.toLowerCase()}">${t.prioritas}</span></td>
+                        <td><span class="badge ${isDone ? 'badge-selesai' : 'badge-belum'}">${t.status}</span></td>
+                        <td>
+                            <button class="btn-action btn-toggle ${isDone ? 'is-done' : ''}" onclick="toggleStatus(${t.id})" title="Ubah Status">
+                                <i class="fas ${isDone ? 'fa-rotate-left' : 'fa-check'}"></i>
+                            </button>
+                            <button class="btn-action btn-edit" onclick="editTask(${t.id})" title="Edit">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="btn-action btn-delete" onclick="deleteTask(${t.id})" title="Hapus">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+
+            document.getElementById('tableFooter').textContent = 
+                `Menampilkan 1 - ${filtered.length} dari ${tasks.length} tugas`;
+        }
+
+        // Event listener untuk search dan filter
+        document.getElementById('searchInput').addEventListener('input', renderTaskTable);
+        document.getElementById('filterStatus').addEventListener('change', renderTaskTable);
+        document.getElementById('filterPrioritas').addEventListener('change', renderTaskTable);
+
+        // Fungsi toggle status tugas
+        function toggleStatus(id) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === id);
+            if (task) {
+                task.status = task.status === 'Selesai' ? 'Belum Selesai' : 'Selesai';
+                saveTasks(tasks);
+                renderTaskTable();
+                showToast(`Tugas "${task.judul}" ditandai ${task.status}`, 'success');
+                updateGameLock();
+            }
+        }
+
+        // Fungsi edit tugas
+        function editTask(id) {
+            window.location.href = `tambah.html?edit=${id}`;
+        }
+
+        // Fungsi hapus tugas
+        function deleteTask(id) {
+            const tasks = getTasks();
+            const task = tasks.find(t => t.id === id);
+            if (task && confirm(`Hapus tugas "${task.judul}"?`)) {
+                const newTasks = tasks.filter(t => t.id !== id);
+                saveTasks(newTasks);
+                renderTaskTable();
+                showToast('Tugas berhasil dihapus', 'info');
+                updateGameLock();
+            }
+        }
+
+        // Render pertama kali
+        renderTaskTable();
+    </script>
+</body>
+</html>

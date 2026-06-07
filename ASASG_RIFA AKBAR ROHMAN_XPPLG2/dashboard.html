@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - EduTask</title>
+     <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <!-- Konten Utama -->
+        <main class="main-content">
+            <!-- Banner Selamat Datang -->
+            <div class="welcome-banner">
+                <h2>Selamat Datang, Siswa!</h2>
+                <p>Kelola tugas-tugasmu dengan lebih terorganisir dan efisien.</p>
+            </div>
+
+            <!-- Kartu Statistik -->
+            <div class="stats-grid">
+                <div class="stat-card total">
+                    <div class="stat-icon"><i class="fas fa-list-check"></i></div>
+                    <div class="stat-number" id="statTotal">0</div>
+                    <div class="stat-label">Total Tugas</div>
+                </div>
+                <div class="stat-card belum">
+                    <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                    <div class="stat-number" id="statBelum">0</div>
+                    <div class="stat-label">Belum Selesai</div>
+                </div>
+                <div class="stat-card selesai">
+                    <div class="stat-icon"><i class="fas fa-circle-check"></i></div>
+                    <div class="stat-number" id="statSelesai">0</div>
+                    <div class="stat-label">Selesai</div>
+                </div>
+                <div class="stat-card hariIni">
+                    <div class="stat-icon"><i class="fas fa-calendar-day"></i></div>
+                    <div class="stat-number" id="statHariIni">0</div>
+                    <div class="stat-label">Tugas Hari Ini</div>
+                </div>
+            </div>
+
+            <!-- Tugas Mendatang -->
+            <div class="section-card">
+                <h3 class="section-title">
+                    <i class="fas fa-calendar-alt"></i> Tugas Mendatang
+                </h3>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>No</th>
+                                <th>Judul Tugas</th>
+                                <th>Mata Pelajaran</th>
+                                <th>Deadline</th>
+                                <th>Prioritas</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="upcomingTable"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Kutipan Motivasi -->
+            <div class="quote-section">
+                <div class="quote-icon"><i class="fas fa-trophy"></i></div>
+                <div>
+                    <div class="quote-text" id="quoteText"></div>
+                    <div class="quote-author" id="quoteAuthor"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+    <script>
+        requireAuth();
+        renderSidebar('dashboard');
+
+        const tasks = getTasks();
+
+        // Hitung statistik
+        const total = tasks.length;
+        const belum = tasks.filter(t => t.status === 'Belum Selesai').length;
+        const selesai = tasks.filter(t => t.status === 'Selesai').length;
+        const today = new Date().toISOString().split('T')[0];
+        const hariIni = tasks.filter(t => t.deadline === today).length;
+
+        // Animasi angka counter
+        animateCounter('statTotal', total);
+        animateCounter('statBelum', belum);
+        animateCounter('statSelesai', selesai);
+        animateCounter('statHariIni', hariIni);
+
+        // Tampilkan tugas mendatang (belum selesai, deadline >= hari ini)
+        const upcoming = tasks
+            .filter(t => t.status === 'Belum Selesai')
+            .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+            .slice(0, 5);
+
+        const tbody = document.getElementById('upcomingTable');
+        if (upcoming.length === 0) {
+            tbody.innerHTML = '<tr><td colspan="6" class="empty-state"><i class="fas fa-check-circle"></i><p>Semua tugas sudah selesai! Kerja bagus!</p></td></tr>';
+        } else {
+            upcoming.forEach((t, i) => {
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${i + 1}</td>
+                        <td><strong>${t.judul}</strong></td>
+                        <td>${t.mapel}</td>
+                        <td>${formatDate(t.deadline)}</td>
+                        <td><span class="badge badge-${t.prioritas.toLowerCase()}">${t.prioritas}</span></td>
+                        <td><span class="badge badge-belum">${t.status}</span></td>
+                    </tr>
+                `;
+            });
+        }
+
+        // Kutipan motivasi
+        const quotes = [
+            { text: "Pendidikan adalah senjata paling ampuh untuk mengubah dunia.", author: "Nelson Mandela" },
+            { text: "Masa depan milik mereka yang percaya pada keindahan mimpi mereka.", author: "Eleanor Roosevelt" },
+            { text: "Sukses adalah hasil dari persiapan, kerja keras, dan belajar dari kegagalan.", author: "Colin Powell" },
+            { text: "Jangan biarkan apa yang tidak bisa kamu lakukan mengganggu apa yang bisa kamu lakukan.", author: "John Wooden" },
+            { text: "Setiap pencapaian besar dimulai dari keputusan untuk mencoba.", author: "John F. Kennedy" }
+        ];
+        const q = quotes[Math.floor(Math.random() * quotes.length)];
+        document.getElementById('quoteText').textContent = `"${q.text}"`;
+        document.getElementById('quoteAuthor').textContent = `— ${q.author}`;
+    </script>
+</body>
+</html>

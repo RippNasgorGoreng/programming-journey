@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistik - EduTask</title>
+     <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Statistik Tugas</h1>
+                <p>Pantau progres penyelesaian tugasmu secara visual</p>
+            </div>
+
+            <!-- Lingkaran Progres Keseluruhan -->
+            <div class="section-card" style="animation-delay: 0.1s;">
+                <h3 class="section-title"><i class="fas fa-chart-pie"></i> Progres Keseluruhan</h3>
+                <div class="progress-circle-container">
+                    <div>
+                        <div class="progress-circle">
+                            <svg>
+                                <circle class="bg" cx="60" cy="60" r="50"></circle>
+                                <circle class="progress" id="progressRing" cx="60" cy="60" r="50" stroke="#0D9488" stroke-dasharray="314" stroke-dashoffset="314"></circle>
+                            </svg>
+                            <div class="value" id="progressPercent">0%</div>
+                        </div>
+                        <div class="progress-label">Tugas Selesai</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-charts">
+                <!-- Chart Berdasarkan Status -->
+                <div class="chart-card" style="animation-delay: 0.2s;">
+                    <h3 class="section-title"><i class="fas fa-tasks"></i> Berdasarkan Status</h3>
+                    <div class="bar-chart" id="statusChart"></div>
+                </div>
+
+                <!-- Chart Berdasarkan Prioritas -->
+                <div class="chart-card" style="animation-delay: 0.3s;">
+                    <h3 class="section-title"><i class="fas fa-flag"></i> Berdasarkan Prioritas</h3>
+                    <div class="bar-chart" id="priorityChart"></div>
+                </div>
+
+                <!-- Chart Berdasarkan Mata Pelajaran -->
+                <div class="chart-card" style="grid-column: span 2; animation-delay: 0.4s;">
+                    <h3 class="section-title"><i class="fas fa-book"></i> Berdasarkan Mata Pelajaran</h3>
+                    <div class="bar-chart" id="mapelChart"></div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        requireAuth();
+        renderSidebar('statistik');
+
+        const tasks = getTasks();
+        const total = tasks.length;
+
+        if (total === 0) {
+            document.getElementById('statusChart').innerHTML = '<p style="color:var(--text-light); font-size:14px;">Belum ada data tugas.</p>';
+        } else {
+            // 1. Progres Lingkaran
+            const selesai = tasks.filter(t => t.status === 'Selesai').length;
+            const percent = Math.round((selesai / total) * 100);
+            const offset = 314 - (314 * percent / 100);
+            
+            // Delay sedikit agar animasi CSS terlihat
+            setTimeout(() => {
+                document.getElementById('progressRing').style.strokeDashoffset = offset;
+                document.getElementById('progressPercent').textContent = percent + '%';
+            }, 300);
+
+            // 2. Chart Status
+            const belumCount = tasks.filter(t => t.status === 'Belum Selesai').length;
+            renderBar('statusChart', [
+                { label: 'Selesai', count: selesai, color: '#22C55E' },
+                { label: 'Belum Selesai', count: belumCount, color: '#F97316' }
+            ]);
+
+            // 3. Chart Prioritas
+            const tinggi = tasks.filter(t => t.prioritas === 'Tinggi').length;
+            const sedang = tasks.filter(t => t.prioritas === 'Sedang').length;
+            const rendah = tasks.filter(t => t.prioritas === 'Rendah').length;
+            renderBar('priorityChart', [
+                { label: 'Tinggi', count: tinggi, color: '#EF4444' },
+                { label: 'Sedang', count: sedang, color: '#EAB308' },
+                { label: 'Rendah', count: rendah, color: '#3B82F6' }
+            ]);
+
+            // 4. Chart Mata Pelajaran
+            const mapels = {};
+            tasks.forEach(t => {
+                mapels[t.mapel] = (mapels[t.mapel] || 0) + 1;
+            });
+            const mapelData = Object.keys(mapels).map(key => ({
+                label: key,
+                count: mapels[key],
+                color: '#0D9488'
+            }));
+            renderBar('mapelChart', mapelData);
+        }
+
+        // Fungsi render Bar Chart sederhana
+        function renderBar(containerId, data) {
+            const container = document.getElementById(containerId);
+            const maxCount = Math.max(...data.map(d => d.count), 1); // Hindari pembagi 0
+            
+            container.innerHTML = '';
+            data.forEach(item => {
+                const widthPercent = (item.count / maxCount) * 100;
+                container.innerHTML += `
+                    <div class="bar-item">
+                        <div class="bar-label">${item.label}</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: 0%; background: ${item.color};" data-width="${widthPercent}">
+                                ${item.count}
+                            </div>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // Animasi bar muncul
+            setTimeout(() => {
+                container.querySelectorAll('.bar-fill').forEach(bar => {
+                    bar.style.width = bar.dataset.width + '%';
+                });
+            }, 300);
+        }
+    </script>
+</body>
+</html>

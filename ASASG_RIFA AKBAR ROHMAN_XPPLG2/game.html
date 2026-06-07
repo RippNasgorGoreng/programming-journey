@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game - EduTask</title>
+    <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Memory Game</h1>
+                <p>Cocokkan semua pasangan kartu untuk menang!</p>
+            </div>
+
+            <!-- Area Game -->
+            <div id="gameArea" style="display:none;">
+                <div class="game-info">
+                    <div class="game-stat">
+                        <div class="label">Langkah</div>
+                        <div class="value" id="moveCount">0</div>
+                    </div>
+                    <div class="game-stat">
+                        <div class="label">Waktu</div>
+                        <div class="value" id="gameTimer">0:00</div>
+                    </div>
+                    <div class="game-stat">
+                        <div class="label">Cocok</div>
+                        <div class="value" id="matchCount">0/8</div>
+                    </div>
+                </div>
+
+                <div class="game-board" id="gameBoard"></div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="initGame()">
+                        <i class="fas fa-redo"></i> Main Lagi
+                    </button>
+                </div>
+            </div>
+
+            <!-- Area Terkunci -->
+            <div id="lockedArea" style="display:none;">
+                <div class="game-locked">
+                    <div class="game-locked-icon">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <h2>Game Terkunci</h2>
+                    <p>Selesaikan semua tugas terlebih dahulu untuk membuka game ini. Ayo semangat!</p>
+                    <a href="tugas.html" class="btn btn-primary" style="margin-top:20px; display:inline-block;">
+                        <i class="fas fa-list-check"></i> Lihat Daftar Tugas
+                    </a>
+                    <br>
+                    <button onclick="bypassGameLock()" class="btn btn-secondary" style="margin-top:12px; opacity:0.7; font-size:13px;">
+                        <i class="fas fa-key"></i> Bypass (Demo Presentasi)
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Overlay Menang -->
+    <div class="game-win-overlay" id="winOverlay">
+        <div class="game-win-card">
+            <div class="win-icon"><i class="fas fa-trophy" style="color:#F59E0B;"></i></div>
+            <h2>Selamat!</h2>
+            <p id="winMessage">Kamu berhasil mencocokkan semua kartu!</p>
+            <button class="btn btn-primary" onclick="closeWin(); initGame();">
+                <i class="fas fa-redo"></i> Main Lagi
+            </button>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script src="script.js"></script>
+    <script>
+        // ============================================
+        //  DEKLARASI SEMUA VARIABEL DI PALING ATAS
+        //  (Wajib dilakukan agar tidak terkena error
+        //   "Cannot access before initialization")
+        // ============================================
+        var cardIcons = [
+            'fa-book', 'fa-graduation-cap', 'fa-pencil', 'fa-flask',
+            'fa-globe', 'fa-lightbulb', 'fa-palette', 'fa-desktop'
+        ];
+
+        var cards = [];
+        var flippedCards = [];
+        var matchedPairs = 0;
+        var moves = 0;
+        var timerInterval = null;
+        var seconds = 0;
+        var lockBoard = false;
+
+        // ============================================
+        //  FUNGSI-FUNGSI GAME
+        // ============================================
+
+        function initGame() {
+            flippedCards = [];
+            matchedPairs = 0;
+            moves = 0;
+            seconds = 0;
+            lockBoard = false;
+
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+
+            document.getElementById('moveCount').textContent = '0';
+            document.getElementById('gameTimer').textContent = '0:00';
+            document.getElementById('matchCount').textContent = '0/8';
+
+            var winEl = document.getElementById('winOverlay');
+            if (winEl) winEl.classList.remove('show');
+
+            // Buat 16 kartu (8 pasang) dan acak
+            var allIcons = cardIcons.concat(cardIcons);
+            for (var i = allIcons.length - 1; i > 0; i--) {
+                var j = Math.floor(Math.random() * (i + 1));
+                var temp = allIcons[i];
+                allIcons[i] = allIcons[j];
+                allIcons[j] = temp;
+            }
+
+            cards = [];
+            for (var k = 0; k < allIcons.length; k++) {
+                cards.push({ id: k, icon: allIcons[k], matched: false });
+            }
+
+            // Render ke HTML
+            var board = document.getElementById('gameBoard');
+            board.innerHTML = '';
+
+            for (var m = 0; m < cards.length; m++) {
+                var cardData = cards[m];
+
+                var cardEl = document.createElement('div');
+                cardEl.className = 'memory-card';
+                cardEl.setAttribute('data-index', cardData.id);
+                cardEl.innerHTML =
+                    '<div class="card-inner">' +
+                        '<div class="card-front"><i class="fas fa-question"></i></div>' +
+                        '<div class="card-back"><i class="fas ' + cardData.icon + '"></i></div>' +
+                    '</div>';
+
+                // Pasang event listener dengan closure
+                (function(index, element) {
+                    element.addEventListener('click', function() {
+                        flipCard(index, element);
+                    });
+                })(cardData.id, cardEl);
+
+                board.appendChild(cardEl);
+            }
+        }
+
+        function startTimer() {
+            if (timerInterval) return;
+            timerInterval = setInterval(function() {
+                seconds++;
+                var m = Math.floor(seconds / 60);
+                var s = seconds % 60;
+                document.getElementById('gameTimer').textContent = m + ':' + (s < 10 ? '0' : '') + s;
+            }, 1000);
+        }
+
+        function flipCard(index, el) {
+            if (lockBoard) return;
+            if (cards[index].matched) return;
+
+            var alreadyFlipped = false;
+            for (var i = 0; i < flippedCards.length; i++) {
+                if (flippedCards[i].index === index) {
+                    alreadyFlipped = true;
+                    break;
+                }
+            }
+            if (alreadyFlipped) return;
+
+            startTimer();
+
+            el.classList.add('flipped');
+            flippedCards.push({ index: index, el: el, icon: cards[index].icon });
+
+            if (flippedCards.length === 2) {
+                moves++;
+                document.getElementById('moveCount').textContent = moves;
+                lockBoard = true;
+
+                var first = flippedCards[0];
+                var second = flippedCards[1];
+
+                if (first.icon === second.icon) {
+                    cards[first.index].matched = true;
+                    cards[second.index].matched = true;
+                    first.el.classList.add('matched');
+                    second.el.classList.add('matched');
+                    matchedPairs++;
+                    document.getElementById('matchCount').textContent = matchedPairs + '/8';
+                    flippedCards = [];
+                    lockBoard = false;
+
+                    if (matchedPairs === 8) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                        setTimeout(showWin, 600);
+                    }
+                } else {
+                    setTimeout(function() {
+                        first.el.classList.remove('flipped');
+                        second.el.classList.remove('flipped');
+                        flippedCards = [];
+                        lockBoard = false;
+                    }, 800);
+                }
+            }
+        }
+
+        function showWin() {
+            var m = Math.floor(seconds / 60);
+            var s = seconds % 60;
+            var timeStr = m + ':' + (s < 10 ? '0' : '') + s;
+            document.getElementById('winMessage').textContent =
+                'Kamu menyelesaikan game dalam ' + moves + ' langkah dan waktu ' + timeStr + '!';
+            document.getElementById('winOverlay').classList.add('show');
+        }
+
+        function closeWin() {
+            document.getElementById('winOverlay').classList.remove('show');
+        }
+
+        // Fungsi bypass untuk presentasi
+        function bypassGameLock() {
+            document.getElementById('lockedArea').style.display = 'none';
+            document.getElementById('gameArea').style.display = 'block';
+            initGame();
+        }
+
+        // ============================================
+        //  INISIALISASI HALAMAN
+        //  (Dipanggil SETELAH semua fungsi siap)
+        // ============================================
+        requireAuth();
+        renderSidebar('game');
+
+        var tasks = getTasks();
+        var allDone = tasks.length > 0 && tasks.every(function(t) { return t.status === 'Selesai'; });
+
+        if (allDone) {
+            document.getElementById('gameArea').style.display = 'block';
+            document.getElementById('lockedArea').style.display = 'none';
+            initGame();
+        } else {
+            document.getElementById('gameArea').style.display = 'none';
+            document.getElementById('lockedArea').style.display = 'block';
+        }
+    </script>
+</body>
+</html>

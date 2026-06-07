@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tentang - EduTask</title>
+         <script>
+        if (localStorage.getItem('edutask_theme') === 'dark') {
+            document.documentElement.classList.add('dark-mode');
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar"></aside>
+
+        <main class="main-content">
+            <div class="page-header">
+                <h1>Tentang Aplikasi</h1>
+                <p>Informasi mengenai EduTask</p>
+            </div>
+
+            <div class="about-card">
+                <div class="about-header">
+                    <div class="about-logo">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h2>EduTask v1.0</h2>
+                    <p>Platform Manajemen Tugas Siswa</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Deskripsi</h3>
+                    <p>EduTask adalah aplikasi web sederhana yang dirancang untuk membantu siswa mengelola tugas-tugas sekolah mereka dengan lebih terorganisir. Aplikasi ini dibuat sebagai Proyek Akhir Semester dengan fokus pada penerapan HTML, CSS, dan JavaScript murni tanpa framework.</p>
+                </div>
+
+                <div class="about-section">
+                    <h3>Fitur Utama</h3>
+                    <ul>
+                        <li>Autentikasi pengguna (Login & Registrasi)</li>
+                        <li>Dashboard visual untuk monitoring tugas</li>
+                        <li>CRUD (Create, Read, Update, Delete) Tugas</li>
+                        <li>Pencarian dan filter tugas</li>
+                        <li>Halaman statistik tugas</li>
+                        <li>Reward game yang terbuka jika semua tugas selesai</li>
+                    </ul>
+                </div>
+
+                <div class="about-section">
+                    <h3>Teknologi yang Digunakan</h3>
+                    <div class="tech-badges">
+                        <span class="tech-badge"><i class="fab fa-html5"></i> HTML5</span>
+                        <span class="tech-badge"><i class="fab fa-css3-alt"></i> CSS3</span>
+                        <span class="tech-badge"><i class="fab fa-js-square"></i> JavaScript</span>
+                        <span class="tech-badge"><i class="fas fa-database"></i> LocalStorage</span>
+                    </div>
+                </div>
+
+                <div class="about-section">
+                    <h3>Pengembang</h3>
+                    <p>Dibuat oleh siswa Kelas 10 SMK untuk memenuhi tugas Proyek Akhir Semester.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        requireAuth();
+        renderSidebar('tentang');
+    </script>
+</body>
+</html>
